@@ -1,0 +1,19 @@
+{
+  "name": "do-not-go-gentle",
+  "version": "1.0.0",
+  "description": "A rest API that takes a token trading path as input and determines if profit is extractable from trades. If so, it executes calls to a smart contract that performs arbitrage.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuasells/do-not-go-gentle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuasells/do-not-go-gentle/issues"
+  },
+  "homepage": "https://github.com/joshuasells/do-not-go-gentle#readme"
+}
