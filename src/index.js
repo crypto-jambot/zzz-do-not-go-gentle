@@ -17,6 +17,7 @@ import {
     calculateEquivalentLiquidity,
     calculateOptimalTradingVolume,
     calculateRevenue,
+    filterEmptyReserves,
 } from './util/util';
 
 export const main = async (data) => {
@@ -31,6 +32,8 @@ export const main = async (data) => {
             );
         }
     }
+
+    data.exchangePath = filterEmptyReserves(data.exchangePath);
 
     // FOR LOGGING PURPOSES. TO SEE WHAT THE DATA LOOKS LIKE AT THIS CURRENT POINT IN TIME.
     // console.log(
@@ -56,11 +59,25 @@ export const main = async (data) => {
     paths = paths.map((path) => calculateRevenue(path));
 
     paths.sort((a, b) => Big(b.gross).minus(Big(a.gross)));
-    console.log('\n\n------------------------------------');
-    // console.log(paths[0]);
+    console.log(paths[0]);
+    for (const p of paths[0].path) {
+        console.log(p);
+    }
     // console.log(paths[0].path[paths[0].path.length - 1]);
-    console.log(`Input: ${paths[0].optimalTradingVolume}`);
-    console.log(`Output: ${paths[0].revenue}`);
-    console.log(`Profit: ${Big(paths[0].gross).div(Big(10).pow(18)).toFixed(8)} MATIC`);
-    console.log('------------------------------------\n\n');
+    if (Big(paths[0].gross).div(Big(10).pow(18)).toNumber(8) >= 0.01) {
+        console.log('\n\n------------------------------------');
+        for (let i = 0; i < paths[0].path.length; i++) {
+            console.log(
+                `Trade ${i + 1} -- ${paths[0].path[i].data.name.toUpperCase()} -- Tokens: ${
+                    data.tokenPath[i].symbol
+                }(${data.tokenPath[i].address}) -> ${data.tokenPath[i + 1].symbol}(${
+                    data.tokenPath[i + 1].address
+                })`
+            );
+        }
+        console.log(`Input: ${Big(paths[0].optimalTradingVolume).div(Big(10).pow(18)).toFixed(8)}`);
+        console.log(`Output: ${Big(paths[0].revenue).div(Big(10).pow(18)).toFixed(8)}`);
+        console.log(`Profit: ${Big(paths[0].gross).div(Big(10).pow(18)).toFixed(8)} MATIC`);
+        console.log('------------------------------------\n\n');
+    }
 };

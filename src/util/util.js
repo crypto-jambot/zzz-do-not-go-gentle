@@ -49,14 +49,27 @@ const getPairContract = (pairAddress) => {
 export const getReserves = async (pairContract) => {
     const { reserve0, reserve1 } = await pairContract.methods.getReserves().call();
     if (Big(reserve0).eq(Big(0)) || Big(reserve1).eq(Big(0))) {
-        console.error(`ERROR: Empty Reserves for pair contract: ${pairContract._address}`);
+        // console.error(`ERROR: Empty Reserves for pair contract: ${pairContract._address}`);
         return null;
     }
     if (Big(reserve0).lt(Big(0)) || Big(reserve1).lt(Big(0))) {
-        console.error(`ERROR: Negative Reserves for pair contract: ${pairContract._address}`);
+        // console.error(`ERROR: Negative Reserves for pair contract: ${pairContract._address}`);
         return null;
     }
     return { reserve0, reserve1 };
+};
+
+// Takes in input data and filters out empty reserve pools.
+export const filterEmptyReserves = (exchangePath) => {
+    return exchangePath.map((path) => {
+        let options = path.options.filter((pair) => {
+            return pair.reserves != null;
+        });
+        return {
+            options: options,
+            ordered: path.ordered,
+        };
+    });
 };
 
 // Returns an array of exploitable path combinations using the token path provided.

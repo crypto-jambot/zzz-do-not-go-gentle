@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node -r esm .",
     "dev": "nodemon -r esm ./src/server.js",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,14 +20,17 @@
   },
   "homepage": "https://github.com/joshuasells/do-not-go-gentle#readme",
   "dependencies": {
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "big.js": "^6.2.1",
     "dotenv": "^16.0.1",
     "esm": "^3.2.25",
     "web3": "^1.7.5",
-    "@uniswap/v2-core": "^1.0.1",
-    "@uniswap/v2-periphery": "^1.1.0-beta.0"
+    "web3-providers-ws": "^1.8.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.2.2",
     "jsdoc": "^3.6.10",
     "nodemon": "^2.0.16"
   }
